@@ -1,50 +1,52 @@
-# 🗄️ Machine Learning & MySQL Prediction System (Tkinter GUI)
+# Linear Regression with MySQL History
 
-A desktop application developed for the Class 12 Computer Science finals project that integrates a **Tkinter GUI**, **scikit-learn Linear Regression**, and a **MySQL relational database** (`mysql-connector-python`). Users can input 10 sequential data values to forecast the next value, inspect model $R^2$ accuracy, and persist/query historical prediction records in MySQL.
+A Tkinter coursework application that fits a scikit-learn Linear Regression model to ten user-entered values, predicts the next value, and stores prediction history in MySQL.
 
----
+## Prerequisites
 
-## 📂 Repository Structure
+- Python with Tkinter
+- A running MySQL server
+- The Python packages below
 
-- `main.py`: Complete Tkinter GUI, `scikit-learn` Linear Regression model, and MySQL database CRUD integration.
-- `README.md`: Project overview and setup instructions.
+```bash
+python -m pip install mysql-connector-python pandas numpy scikit-learn
+```
 
----
+Create the database and table expected by the application:
 
-## ✨ Key Features
-
-- **Real-Time Linear Regression**: Accepts 10 numerical inputs, fits a `LinearRegression` model, predicts the $11^{	ext{th}}$ value, and computes $R^2$ accuracy.
-- **MySQL Persistence**: Connects to a local MySQL database (`old_results`) to log predictions and retrieve past runs (`SELECT * FROM ReSuLt`) in a dedicated history window.
-- **Full-Screen Desktop Interface**: Built with Tkinter (`1600x900`) for classroom demonstration.
-
----
-
-## 🚀 Getting Started
-
-### 1. Prerequisites
-Ensure you have Python 3 and a local MySQL server running with a database named `old_results` and table `ReSuLt`:
 ```sql
 CREATE DATABASE IF NOT EXISTS old_results;
 USE old_results;
+
 CREATE TABLE IF NOT EXISTS ReSuLt (
-    Prediction VARCHAR(255),
-    Accuracy VARCHAR(255)
+    Prediction DOUBLE NOT NULL
 );
 ```
 
-### 2. Install Python Dependencies
+## Configure the connection
+
+The application reads connection settings from environment variables. It defaults to host `localhost` and database `old_results`; set the user and password for your local MySQL installation.
+
+**Linux or macOS**
 ```bash
-pip install mysql-connector-python pandas numpy scikit-learn
+export MYSQL_HOST=localhost
+export MYSQL_USER=your_mysql_user
+export MYSQL_PASSWORD=your_mysql_password
+export MYSQL_DATABASE=old_results
 ```
 
-### 3. Run the Application
-Update the `ms.connect(...)` credentials in `main.py` to match your local MySQL user/password, then run:
+**Windows PowerShell**
+```powershell
+$env:MYSQL_HOST = "localhost"
+$env:MYSQL_USER = "your_mysql_user"
+$env:MYSQL_PASSWORD = "your_mysql_password"
+$env:MYSQL_DATABASE = "old_results"
+```
+
+Run the GUI:
+
 ```bash
 python main.py
 ```
 
----
-
-## 👤 Author
-
-**Sparsh Agarwal** — [GitHub](https://github.com/sparsh0106) · [LinkedIn](https://www.linkedin.com/in/sparsh-agarwal-4b443b304/)
+Keep real database credentials out of source control. The model's displayed (R^2) score is computed on its training subset and should not be interpreted as test accuracy.
