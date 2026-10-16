@@ -1,5 +1,6 @@
 # IMPORTING DIFFERENT MODULES
 import mysql.connector as ms
+import os
 from tkinter import *
 import pandas as pd
 
@@ -8,7 +9,7 @@ root = Tk()
 root.geometry("1600x900")  #SCREEN RESOLUTION
 
 # CONNECTING MYSQL WITH PYTHON
-connect = ms.connect(host = "localhost", user = 'root', passwd = 'bbpsmn@123456', database = 'old_results')
+connect = ms.connect(host=os.getenv("MYSQL_HOST", "localhost"), user=os.getenv("MYSQL_USER"), passwd=os.getenv("MYSQL_PASSWORD"), database=os.getenv("MYSQL_DATABASE", "old_results"))
 print("MySQL successfully connected")
 heh = connect.cursor(buffered=True)
 
